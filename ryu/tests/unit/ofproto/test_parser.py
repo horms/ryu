@@ -24,9 +24,11 @@ from ryu.ofproto import ofproto_parser
 from ryu.ofproto import ofproto_v1_0
 from ryu.ofproto import ofproto_v1_2
 from ryu.ofproto import ofproto_v1_3
+from ryu.ofproto import ofproto_v1_4
 from ryu.ofproto import ofproto_v1_0_parser
 from ryu.ofproto import ofproto_v1_2_parser
 from ryu.ofproto import ofproto_v1_3_parser
+from ryu.ofproto import ofproto_v1_4_parser
 import json
 
 
@@ -68,7 +70,6 @@ implemented = {
         ofproto_v1_3.OFPT_GET_CONFIG_REQUEST: (False, True),
         ofproto_v1_3.OFPT_GET_CONFIG_REPLY: (True, False),
         ofproto_v1_3.OFPT_SET_CONFIG: (False, True),
-        ofproto_v1_3.OFPT_PACKET_IN: (True, False),
         ofproto_v1_3.OFPT_FLOW_REMOVED: (True, False),
         ofproto_v1_3.OFPT_PORT_STATUS: (True, False),
         ofproto_v1_3.OFPT_PACKET_OUT: (False, True),
@@ -87,6 +88,31 @@ implemented = {
         ofproto_v1_3.OFPT_GET_ASYNC_REQUEST: (False, True),
         ofproto_v1_3.OFPT_GET_ASYNC_REPLY: (True, False),
         ofproto_v1_3.OFPT_SET_ASYNC: (False, True),
+    },
+    5: {
+        ofproto_v1_4.OFPT_HELLO: (True, False),
+        ofproto_v1_4.OFPT_FEATURES_REQUEST: (False, True),
+        ofproto_v1_4.OFPT_FEATURES_REPLY: (True, False),
+        ofproto_v1_4.OFPT_GET_CONFIG_REQUEST: (False, True),
+        ofproto_v1_4.OFPT_GET_CONFIG_REPLY: (True, False),
+        ofproto_v1_4.OFPT_SET_CONFIG: (False, True),
+        ofproto_v1_4.OFPT_PACKET_IN: (True, False),
+        ofproto_v1_4.OFPT_FLOW_REMOVED: (True, False),
+        ofproto_v1_4.OFPT_PORT_STATUS: (True, False),
+        ofproto_v1_4.OFPT_PACKET_OUT: (False, True),
+        ofproto_v1_4.OFPT_FLOW_MOD: (False, True),
+        ofproto_v1_4.OFPT_GROUP_MOD: (False, True),
+        ofproto_v1_4.OFPT_PORT_MOD: (False, True),
+        ofproto_v1_4.OFPT_METER_MOD: (False, True),
+        ofproto_v1_4.OFPT_TABLE_MOD: (False, True),
+        ofproto_v1_4.OFPT_MULTIPART_REQUEST: (False, True),
+        ofproto_v1_4.OFPT_MULTIPART_REPLY: (True, False),
+        ofproto_v1_4.OFPT_BARRIER_REQUEST: (False, True),
+        ofproto_v1_4.OFPT_ROLE_REQUEST: (False, True),
+        ofproto_v1_4.OFPT_ROLE_REPLY: (True, False),
+        ofproto_v1_4.OFPT_GET_ASYNC_REQUEST: (False, True),
+        ofproto_v1_4.OFPT_GET_ASYNC_REPLY: (True, False),
+        ofproto_v1_4.OFPT_SET_ASYNC: (False, True),
     },
 }
 
@@ -109,6 +135,8 @@ class Test_Parser(unittest.TestCase):
                                    ofproto_v1_2_parser),
         ofproto_v1_3.OFP_VERSION: (ofproto_v1_3,
                                    ofproto_v1_3_parser),
+        ofproto_v1_4.OFP_VERSION: (ofproto_v1_4,
+                                   ofproto_v1_4_parser),
     }
 
     def __init__(self, methodName):
@@ -191,6 +219,7 @@ def _add_tests():
         'of10',
         'of12',
         'of13',
+        'of14',
     ]
     for ver in ofvers:
         pdir = packet_data_dir + '/' + ver
