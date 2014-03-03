@@ -1,0 +1,66 @@
+{
+   "OFPFlowMonitorReply": {
+      "body": [
+         {
+	    "OFPFlowUpdateFull": {
+	       "length": 64, 
+	       "event": 0, 
+	       "reason": 0, 
+	       "idle_timeout": 600, 
+	       "hard_timeout": 700, 
+	       "priority": 3, 
+	       "cookie": 0, 
+	       "table_id": 0, 
+	       "match": {
+	          "OFPMatch": {
+		     "type": 1, 
+		     "length": 10, 
+		     "oxm_fields": [
+		        {
+			   "OXMTlv": {
+			      "field": "eth_type", 
+			      "mask": null, 
+			      "value": 2054
+			   }
+			}
+                     ]
+                  }
+               }, 
+               "instructions": [
+                  {
+                     "OFPInstructionActions": {
+                        "type": 4, 
+                        "len": 24, 
+                        "actions": [
+                           {
+                              "OFPActionOutput": {
+                                 "len": 16, 
+                                 "type": 0, 
+                                 "max_len": 0, 
+                                 "port": 4294967290
+                              }
+                           }
+                        ]
+                     }
+                  }
+               ]
+            }
+         }, 
+         {
+	    "OFPFlowUpdateAbbrev": {
+	       "length": 8, 
+	       "event": 4, 
+	       "xid": 1234
+            }
+         },
+         {
+	    "OFPFlowUpdatePaused": {
+	       "length": 8, 
+	       "event": 5
+            }
+         }
+      ], 
+      "flags": 0, 
+      "type": 16
+   }
+}
