@@ -1916,8 +1916,7 @@ class OFPTableMod(MsgBase):
     Attribute        Description
     ================ ======================================================
     table_id         ID of the table (OFPTT_ALL indicates all tables)
-    config           Bitmap of the following flags.
-                     OFPTC_DEPRECATED_MASK (3)
+    config           Zero
     ================ ======================================================
 
     Example::
