@@ -115,7 +115,6 @@ class StringifyMixin(stringify.StringifyMixin):
     @classmethod
     def cls_from_jsondict_key(cls, k):
         obj_cls = super(StringifyMixin, cls).cls_from_jsondict_key(k)
-        assert not issubclass(obj_cls, MsgBase)
         return obj_cls
 
 
