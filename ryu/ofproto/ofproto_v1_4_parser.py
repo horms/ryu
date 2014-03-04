@@ -5856,3 +5856,63 @@ class OFPBundleCtrlMsg(MsgBase):
                       self.buf, ofproto.OFP_HEADER_SIZE, self.bundle_id,
                       self.type, self.flags)
         self.buf += bin_props
+
+
+@_set_msg_type(ofproto.OFPT_BUNDLE_ADD_MESSAGE)
+class OFPBundleAddMsg(MsgBase):
+    """
+    Bundle control message
+
+    The controller uses this message to create, destroy and commit bundles
+
+    ================ ======================================================
+    Attribute        Description
+    ================ ======================================================
+    bundle_id        Id of the bundle
+    flags            Bitmap of the following flags.
+                     OFPBF_ATOMIC
+                     OFPBF_ORDERED
+    message          ``MsgBase`` subclass instance
+    properties       List of ``OFPBundleProp`` subclass instance
+    ================ ======================================================
+
+    Example::
+
+        def send_bundle_add_message(self, datapath):
+            ofp = datapath.ofproto
+            ofp_parser = datapath.ofproto_parser
+
+            msg = ofp_parser.OFPRoleRequest(datapath, ofp.OFPCR_ROLE_EQUAL, 0)
+
+            req = ofp_parser.OFPBundleAddMsg(datapath, 7, [ofp.OFPBF_ATOMIC],
+                                             msg, [])
+            datapath.send_msg(req)
+    """
+    def __init__(self, datapath, bundle_id, flags, message, properties):
+        super(OFPBundleAddMsg, self).__init__(datapath)
+        self.bundle_id = bundle_id
+        self.flags = flags
+        self.message = message
+        self.properties = properties
+
+    def _serialize_body(self):
+        # Message
+        tail_buf = self.message.serialize()
+        tail_buf = self.message.buf
+
+        # Pad
+        message_len = len(tail_buf)
+        pad_len = utils.round_up(message_len, 8) - message_len
+        ofproto_parser.msg_pack_into("%dx" % pad_len, tail_buf, message_len)
+
+        # Properties
+        for p in self.properties:
+            tail_buf += p.serialize()
+
+        # Head
+        msg_pack_into(ofproto.OFP_BUNDLE_ADD_MSG_0_PACK_STR,
+                      self.buf, ofproto.OFP_HEADER_SIZE, self.bundle_id,
+                      self.flags)
+
+        # Finish
+        self.buf += tail_buf
